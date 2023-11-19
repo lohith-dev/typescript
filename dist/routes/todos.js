@@ -15,7 +15,9 @@ router.post('/todo', (req, res, next) => {
     res.status(200).json({ message: 'Added todo', todo: newTodo, todos: todos });
 });
 router.put('/todo/:todoid', (req, res, next) => {
-    const tid = req.params.todoid;
+    const params = req.params;
+    const tid = params.todoid;
+    const body = req.body;
     const todoIndex = todos.findIndex((todoItem) => todoItem.id === tid);
     if (todoIndex >= 0) {
         todos[todoIndex] = { id: todos[todoIndex].id, text: todos[todoIndex].text };
@@ -24,7 +26,9 @@ router.put('/todo/:todoid', (req, res, next) => {
     res.status(404).json({ message: 'Could not find the todo' });
 });
 router.delete('todo/:todoid', (req, res, next) => {
-    const tid = req.params.todoid;
+    const params = req.params;
+    const tid = params.todoid;
+    // const tid = req.params.todoid;
     todos.filter((todoItem) => todoItem.id !== tid);
     res.status(200).json({ message: 'Deleted todo', todos: todos });
 });

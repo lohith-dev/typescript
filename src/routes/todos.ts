@@ -6,6 +6,9 @@ import { Todo } from "../models/todos";
 
 const todos:Todo[] = [];
 
+type RequestBody = {text:String}
+type RequestParams = {todoid:String}
+
 router.get('/',(req,res,next)=>{
     res.status(200).json({todos:todos})
 })
@@ -20,7 +23,9 @@ todos.push(newTodo);
 })
 
 router.put('/todo/:todoid',(req,res,next)=>{
-   const tid = req.params.todoid;
+   const params = req.params as RequestParams;
+   const tid = params.todoid;
+   const body = req.body as RequestBody ;
    const todoIndex =todos.findIndex((todoItem)=>todoItem.id===tid);
    if(todoIndex>=0){
     todos[todoIndex]={id:todos[todoIndex].id ,text:todos[todoIndex].text}
@@ -30,7 +35,9 @@ router.put('/todo/:todoid',(req,res,next)=>{
     })
 
     router.delete('todo/:todoid',(req,res,next)=>{
-        const tid = req.params.todoid;
+        const params = req.params as RequestParams;
+        const tid = params.todoid;
+        // const tid = req.params.todoid;
         todos.filter((todoItem)=>todoItem.id!==tid);
         res.status(200).json({message:'Deleted todo',todos:todos})
     })
